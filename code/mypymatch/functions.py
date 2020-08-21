@@ -2,6 +2,12 @@ from __future__ import division
 from . import *
 import sys
 import numpy as np
+import warnings
+from statsmodels.tools.sm_exceptions import ConvergenceWarning
+warnings.filterwarnings(
+    "error",
+    message='Maximum number of iterations has been exceeded',
+    category=ConvergenceWarning)
 
 
 def drop_static_cols(df, yvar, cols=None):

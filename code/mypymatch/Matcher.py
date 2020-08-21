@@ -318,21 +318,6 @@ class Matcher:
             self.yvar_escaped, '+'.join(current_xvar_escaped))
         return df
 
-    def plot_scores(self):
-        """
-        Plots the distribution of propensity scores before matching between
-        our test and control groups
-        """
-        assert 'scores' in self.data.columns, \
-            "Propensity scores haven't been calculated, use Matcher.predict_scores()"
-        sns.distplot(self.data[self.data[self.yvar]
-                               == 0].scores, label='Control')
-        sns.distplot(self.data[self.data[self.yvar] == 1].scores, label='Test')
-        plt.legend(loc='upper right')
-        plt.xlim((0, 1))
-        plt.title("Propensity Scores Before Matching")
-        plt.ylabel("Percentage (%)")
-        plt.xlabel("Scores")
 
     def prop_test(self, col):
         """
@@ -366,135 +351,6 @@ class Matcher:
         else:
             print("{} is a continuous variable".format(col))
 
-    def compare_continuous(self, save=False, return_table=False):
-        """
-        Plots the ECDFs for continuous features before and
-        after matching. Each chart title contains test results
-        and statistics to summarize how similar the two distributions
-        are (we want them to be close after matching).
-
-        Tests performed:
-        Kolmogorov-Smirnov Goodness of fit Test (KS-test)
-            This test statistic is calculated on 1000
-            permuted samples of the data, generating
-            an imperical p-value.  See mypymatch.functions.ks_boot()
-            This is an adaptation of the ks.boot() method in
-            the R "Matching" package
-            https://www.rdocumentation.org/packages/Matching/versions/4.9-2/topics/ks.boot
-        Chi-Square Distance:
-            Similarly this distance metric is calculated on
-            1000 permuted samples.
-            See mypymatch.functions.grouped_permutation_test()
-
-        Other included Stats:
-        Standarized mean and median differences
-        How many standard deviations away are the mean/median
-        between our groups before and after matching
-        i.e. abs(mean(control) - mean(test)) / std(control.union(test))
-
-        Parameters
-        ----------
-        return_table : bool
-            Should the function a table with tests and statistics?
-
-        Returns
-        -------
-        pd.DataFrame (optional)
-            Table of before/after statistics if return_table == True
-
-
-        """
-        test_results = []
-        for col in self.matched_data.columns:
-            if uf.is_continuous(col, self.X) and col not in self.exclude:
-                # organize data
-                trb, cob = self.test[col], self.control[col]
-                tra = self.matched_data[self.matched_data[self.yvar]][col]
-                coa = self.matched_data[self.matched_data[self.yvar]
-                                        == False][col]
-                xtb, xcb = ECDF(trb), ECDF(cob)
-                xta, xca = ECDF(tra), ECDF(coa)
-
-                # before/after stats
-                std_diff_med_before, std_diff_mean_before = uf.std_diff(
-                    trb, cob)
-                std_diff_med_after, std_diff_mean_after = uf.std_diff(tra, coa)
-                pb, truthb = uf.grouped_permutation_test(
-                    uf.chi2_distance, trb, cob)
-                pa, trutha = uf.grouped_permutation_test(
-                    uf.chi2_distance, tra, coa)
-                ksb = round(uf.ks_boot(trb, cob, nboots=1000), 6)
-                ksa = round(uf.ks_boot(tra, coa, nboots=1000), 6)
-
-                # plotting
-                f, (ax1, ax2) = plt.subplots(
-                    1, 2, sharey=True, sharex=True, figsize=(12, 5))
-                ax1.plot(
-                    xcb.x,
-                    xcb.y,
-                    label='Control',
-                    color=self.control_color)
-                ax1.plot(xtb.x, xtb.y, label='Test', color=self.test_color)
-                ax1.plot(
-                    xcb.x,
-                    xcb.y,
-                    label='Control',
-                    color=self.control_color)
-                ax1.plot(xtb.x, xtb.y, label='Test', color=self.test_color)
-
-                title_str = '''
-                ECDF for {} {} Matching
-                KS p-value: {}
-                Grouped Perm p-value: {}
-                Std. Median Difference: {}
-                Std. Mean Difference: {}
-                '''
-                ax1.set_title(
-                    title_str.format(
-                        col,
-                        "before",
-                        ksb,
-                        pb,
-                        std_diff_med_before,
-                        std_diff_mean_before))
-                ax2.plot(xca.x, xca.y, label='Control')
-                ax2.plot(xta.x, xta.y, label='Test')
-                ax2.set_title(
-                    title_str.format(
-                        col,
-                        "after",
-                        ksa,
-                        pa,
-                        std_diff_med_after,
-                        std_diff_mean_after))
-                ax2.legend(loc="lower right")
-                plt.xlim((0, np.percentile(xta.x, 99)))
-
-                test_results.append({
-                    "var": col,
-                    "ks_before": ksb,
-                    "ks_after": ksa,
-                    "grouped_chisqr_before": pb,
-                    "grouped_chisqr_after": pa,
-                    "std_median_diff_before": std_diff_med_before,
-                    "std_median_diff_after": std_diff_med_after,
-                    "std_mean_diff_before": std_diff_mean_before,
-                    "std_mean_diff_after": std_diff_mean_after
-                })
-
-        var_order = [
-            "var",
-            "ks_before",
-            "ks_after",
-            "grouped_chisqr_before",
-            "grouped_chisqr_after",
-            "std_median_diff_before",
-            "std_median_diff_after",
-            "std_mean_diff_before",
-            "std_mean_diff_after"
-        ]
-
-        return pd.DataFrame(test_results)[var_order] if return_table else None
 
     def compare_categorical(self, return_table=False):
         """
@@ -600,39 +456,11 @@ class Matcher:
         return len(self.matched_data[self.matched_data[self.yvar] == self.minority]
                    ) * 1.0 / len(self.data[self.data[self.yvar] == self.minority])
 
-    def tune_threshold(
-        self, method, nmatches=1, rng=np.arange(
-            0, .001, .0001)):
-        """
-        Matches data over a grid to optimize threshold value and plots results.
 
-        Parameters
-        ----------
-        method : str
-            Method used for matching (use "random" for this method)
-        nmatches : int
-            Max number of matches per record. See mypymatch.match()
-        rng: : list / np.array()
-            Grid of threshold values
-
-        Returns
-        -------
-        None
-
-        """
-        results = []
-        for i in rng:
-            self.match(method=method, nmatches=nmatches, threshold=i)
-            results.append(self.prop_retained())
-        plt.plot(rng, results)
-        plt.title("Proportion of Data retained for grid of threshold values")
-        plt.ylabel("Proportion Retained")
-        plt.xlabel("Threshold")
-        plt.xticks(rng)
 
     def record_frequency(self):
         """
-        Calculates the frequency of specifi records in
+        Calculates the frequency of specific records in
         the matched dataset
 
         Returns

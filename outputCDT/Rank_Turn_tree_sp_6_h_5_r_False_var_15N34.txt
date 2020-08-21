@@ -1,0 +1,23 @@
+digraph Tree {
+node [shape=box] ;
+
+1 [label="RelaDisToK < 0.11\n {'Norm': 16,
+ 'Popular': 2,
+ 'Zero': 16}  \nGINI:0.55 "] ;
+1 -> 2 [headlabel=True] ;
+2 [label="  RelaDisToK < 0.05  \n {'Norm': 12,
+ 'Popular': 2}  \nGINI:0.24 "] ;
+2 -> 3 [headlabel=True] ;
+3 [label="         Popular \n\n {'Popular': 2}  \nGINI:0.00 "] ;
+2 -> 4 [headlabel=False] ;
+4 [label="         Norm \n\n {'Norm': 12}  \nGINI:0.00 "] ;
+1 -> 5 [headlabel=False] ;
+5 [label="  LastTurnover < 3550.00  \n {'Norm': 4,
+ 'Zero': 16}  \nGINI:0.32 "] ;
+5 -> 6 [headlabel=True] ;
+6 [label="         Zero \n\n {'Norm': 2,
+ 'Zero': 15}  \nGINI:0.21 "] ;
+5 -> 7 [headlabel=False] ;
+7 [label="         Norm \n\n {'Norm': 2,
+ 'Zero': 1}  \nGINI:0.44 "] ;
+}

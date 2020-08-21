@@ -14,3 +14,9 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import numpy as np
+from statsmodels.tools.sm_exceptions import ConvergenceWarning
+import warnings
+warnings.filterwarnings(
+    "error",
+    message='Maximum number of iterations has been exceeded',
+    category=ConvergenceWarning)

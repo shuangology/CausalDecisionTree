@@ -1,0 +1,81 @@
+digraph Tree {
+node [shape=box] ;
+
+1 [label="StarIssuer < 1.00\n {'Norm': 187,
+ 'Popular': 44,
+ 'Zero': 188}  \nGINI:0.59 "] ;
+1 -> 2 [headlabel=True] ;
+2 [label="  Last_Rank_Turn < 0.80  \n {'Norm': 129,
+ 'Popular': 22,
+ 'Zero': 127}  \nGINI:0.57 "] ;
+2 -> 3 [headlabel=True] ;
+3 [label="    Last_Rank_Turn < 0.12    \n {'Norm': 111,
+ 'Popular': 22,
+ 'Zero': 16}  \nGINI:0.41 "] ;
+3 -> 4 [headlabel=True] ;
+4 [label="      Last_OutRatio < 19.18      \n {'Norm': 10,
+ 'Popular': 18,
+ 'Zero': 2}  \nGINI:0.52 "] ;
+4 -> 5 [headlabel=True] ;
+5 [label="                 Norm \n\n {'Norm': 10,
+ 'Popular': 8,
+ 'Zero': 2}  \nGINI:0.58 "] ;
+4 -> 6 [headlabel=False] ;
+6 [label="                 Popular \n\n {'Popular': 10}  \nGINI:0.00 "] ;
+3 -> 7 [headlabel=False] ;
+7 [label="             Norm \n\n {'Norm': 101,
+ 'Popular': 4,
+ 'Zero': 14}  \nGINI:0.26 "] ;
+2 -> 8 [headlabel=False] ;
+8 [label="    FinCost < 0.10    \n {'Norm': 18,
+ 'Zero': 111}  \nGINI:0.24 "] ;
+8 -> 9 [headlabel=True] ;
+9 [label="             Zero \n\n {'Norm': 13,
+ 'Zero': 21}  \nGINI:0.47 "] ;
+8 -> 10 [headlabel=False] ;
+10 [label="      Last_Theo_Lev < 9.80      \n {'Norm': 5,
+ 'Zero': 90}  \nGINI:0.10 "] ;
+10 -> 11 [headlabel=True] ;
+11 [label="                 Zero \n\n {'Zero': 79,
+ 'Norm': 3}  \nGINI:0.07 "] ;
+10 -> 12 [headlabel=False] ;
+12 [label="        FinCost < 0.12        \n {'Norm': 2,
+ 'Zero': 11}  \nGINI:0.26 "] ;
+12 -> 13 [headlabel=True] ;
+13 [label="                     Zero \n\n {'Norm': 1,
+ 'Zero': 10}  \nGINI:0.17 "] ;
+12 -> 14 [headlabel=False] ;
+14 [label="                     Norm \n\n {'Norm': 1,
+ 'Zero': 1}  \nGINI:0.50 "] ;
+1 -> 15 [headlabel=False] ;
+15 [label="  RelaDisToC < 0.10  \n {'Norm': 58,
+ 'Popular': 22,
+ 'Zero': 61}  \nGINI:0.62 "] ;
+15 -> 16 [headlabel=True] ;
+16 [label="    RelaDisToK < 0.05    \n {'Norm': 49,
+ 'Popular': 21,
+ 'Zero': 12}  \nGINI:0.56 "] ;
+16 -> 17 [headlabel=True] ;
+17 [label="             Popular \n\n {'Norm': 12,
+ 'Popular': 14}  \nGINI:0.50 "] ;
+16 -> 18 [headlabel=False] ;
+18 [label="      Last_DayOut_p < 634.40      \n {'Norm': 37,
+ 'Popular': 7,
+ 'Zero': 12}  \nGINI:0.50 "] ;
+18 -> 19 [headlabel=True] ;
+19 [label="        Last_DayOut_n < -3526.40        \n {'Norm': 37,
+ 'Popular': 5,
+ 'Zero': 12}  \nGINI:0.47 "] ;
+19 -> 20 [headlabel=True] ;
+20 [label="                     Popular \n\n {'Popular': 1}  \nGINI:0.00 "] ;
+19 -> 21 [headlabel=False] ;
+21 [label="                     Norm \n\n {'Norm': 37,
+ 'Popular': 4,
+ 'Zero': 12}  \nGINI:0.46 "] ;
+18 -> 22 [headlabel=False] ;
+22 [label="                 Popular \n\n {'Popular': 2}  \nGINI:0.00 "] ;
+15 -> 23 [headlabel=False] ;
+23 [label="         Zero \n\n {'Norm': 9,
+ 'Popular': 1,
+ 'Zero': 49}  \nGINI:0.29 "] ;
+}
