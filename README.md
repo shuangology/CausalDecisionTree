@@ -60,8 +60,7 @@ It read data from data folder and also includes a neat tree print function, prod
 mypymatch is a package implemented the propensity matching method used in tree branch splitting.
 
 
-The algorithm itself could be applied in other data analyse
-I would be happy to discuss if you have any questions regarding my code. Unfortunately,
+The algorithm itself could be applied in other data analyse and I would be happy to discuss if you have any questions regarding my code. Unfortunately,
 my thesis is required to be written in Chinese, so currently I have no English version of detailed description of this algorithm yet.
 I am still working on to put it in English, please be patient for further update.
 
