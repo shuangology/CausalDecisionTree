@@ -10,7 +10,7 @@ contract features, (historical) market performance and underlying performance co
 to the investors. When one investor is making trading decisions from a variety financial products, the whole process is usually not linear but hierarchy(tree - like) .
 
 
-In other words, investors make decisions based on a sequence of variables and reach to the final decision based on a hierarchical 'if-else' questions.
+In other words, investors make decisions based on a sequence of variables and reach to the final decision based on a set of hierarchical 'if-else' questions.
 Multiple variables are not likely to be proceeded in parallel in human mind. This results in a different inference tools. In classical econometrics, a typical regression approach would be to fit a logit model to a binary variable.
 However, even thought the regressors are correct, a logit model may still fail to make good inference. Logit model do not recognize that the data set embeds a hierarchical structure.
 
